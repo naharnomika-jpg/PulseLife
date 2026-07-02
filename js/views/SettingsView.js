@@ -94,6 +94,25 @@ export const SettingsView = {
               </div>
             </div>
 
+            <!-- API Configuration Card -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                <i class="fa-solid fa-key" style="color: #f59e0b;"></i> API Configuration
+              </h3>
+              
+              <form id="settings-api-form" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <div class="form-group">
+                  <label>Groq API Key</label>
+                  <input type="password" id="set-groq-key" class="form-control" 
+                    value="${store.state.settings.groqKey || ''}" 
+                    placeholder="Enter your gsk_... key" style="font-family: monospace;">
+                </div>
+                <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">
+                  Save API Key
+                </button>
+              </form>
+            </div>
+
             <!-- Submit Feedback Card -->
             <div class="glass-card">
               <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
@@ -121,6 +140,7 @@ export const SettingsView = {
 
   init() {
     const profileForm = document.getElementById('settings-profile-form');
+    const apiForm = document.getElementById('settings-api-form');
     const feedbackForm = document.getElementById('settings-feedback-form');
     const langSelect = document.getElementById('settings-lang-select');
     const themeCheckbox = document.getElementById('settings-theme-checkbox');
@@ -141,6 +161,16 @@ export const SettingsView = {
         store.updateProfileDetails(name, details);
         Toast.success('Bio metrics updated. Caloric guidelines successfully re-calculated.');
         setTimeout(() => window.router.navigateTo('dashboard'), 500);
+      });
+    }
+
+    // API Key Update Submit
+    if (apiForm) {
+      apiForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const keyVal = document.getElementById('set-groq-key').value.trim();
+        store.setGroqKey(keyVal);
+        Toast.success('Groq API Key successfully updated.');
       });
     }
 
@@ -176,8 +206,7 @@ export const SettingsView = {
         Toast.success(`Theme updated: ${nextTheme === 'dark' ? 'Dark' : 'Light'} Mode`);
       });
     }
-
-    }
+  }
 };
 
 export default SettingsView;

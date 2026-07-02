@@ -364,6 +364,15 @@ class Store {
     this.saveState();
   }
 
+  setGroqKey(key) {
+    this.state.settings.groqKey = key;
+    this.saveState();
+    const email = this.state.currentUser;
+    if (email) {
+      this.syncToFirestore(email);
+    }
+  }
+
   updateProfileDetails(name, details) {
     const email = this.state.currentUser;
     if (!email) return;
