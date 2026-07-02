@@ -430,34 +430,72 @@ export const AIEngine = {
   },
 
   async callGroqAPI(systemPrompt, userPrompt) {
-    const key = store.state.settings.groqKey;
-    if (!key || !key.startsWith('gsk_')) {
-      throw new Error('Groq API Key is not configured.');
-    }
+    const key = store.state.settings.groqKey || '';
 
-    const response = await fetch('/api/groq', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${key}`
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.7
-      })
-    });
+    // Try to request the API proxy endpoint first (handles local server.py and Vercel serverless functions)
+    try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (key) {
+        headers['Authorization'] = `Bearer ${key}`;
+      }
 
-    if (!response.ok) {
+      const response = await fetch('/api/groq', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          model: 'llama-3.1-8b-instant',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ],
+          temperature: 0.7
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.choices[0].message.content;
+      }
+
+      // If the proxy endpoint returned 404 (not found) or 405, we fallback to a direct fetch if a local key is present
+      if (response.status === 404 || response.status === 405) {
+        throw new Error('Proxy endpoint not active');
+      }
+
       const err = await response.json().catch(() => ({}));
       throw new Error(err.error?.message || `API error code ${response.status}`);
-    }
+    } catch (proxyError) {
+      // Fallback: If proxy failed or is not configured, try to fetch direct from Groq if key is available in UI settings
+      if (key && key.startsWith('gsk_')) {
+        console.log('API Proxy failed or returned 404. Falling back to direct client-side fetch from Groq API...');
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${key}`
+          },
+          body: JSON.stringify({
+            model: 'llama-3.1-8b-instant',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            temperature: 0.7
+          })
+        });
 
-    const data = await response.json();
-    return data.choices[0].message.content;
+        if (response.ok) {
+          const data = await response.json();
+          return data.choices[0].message.content;
+        }
+
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error?.message || `Direct API fetch failed with status ${response.status}`);
+      }
+
+      // If no key is set anywhere
+      throw new Error('Groq API Key is not configured. Please add it to your Vercel Environment Variables or App Settings.');
+    }
   },
 
   async chatResponseAsync(message, currentLogs = {}, userDetails = {}) {
