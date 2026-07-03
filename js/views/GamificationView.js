@@ -20,9 +20,7 @@ export const GamificationView = {
       { id: 'focus_master', name: 'Focus Master', icon: 'fa-crosshairs', desc: 'Record a focus rating of 9/10 or higher.', color: 'blue' },
       { id: 'mindful_monk', name: 'Mindful Monk', icon: 'fa-brain', desc: 'Complete 15 minutes or more of calm meditation.', color: 'gold' },
       { id: 'healthy_eater', name: 'Healthy Eater', icon: 'fa-apple-whole', desc: 'Avoid junk snacks and consume 3+ green servings.', color: 'gold' },
-      { id: 'workout_warrior', name: 'Workout Warrior', icon: 'fa-dumbbell', desc: 'Burn 400+ active calories in daily workout logs.', color: 'blue' },
-      { id: 'streak_beginner', name: 'Streak Beginner', icon: 'fa-fire', desc: 'Maintain a consecutive habits logging streak for 3 days.', color: 'gold' },
-      { id: 'streak_master', name: 'Streak Master', icon: 'fa-bolt', desc: 'Maintain a consecutive habits logging streak for 7 days.', color: 'gold' }
+      { id: 'workout_warrior', name: 'Workout Warrior', icon: 'fa-dumbbell', desc: 'Burn 400+ active calories in daily workout logs.', color: 'blue' }
     ];
 
     return `
@@ -30,7 +28,7 @@ export const GamificationView = {
         
         <!-- Header -->
         <div>
-          <h1 style="font-size: 1.8rem; font-family: var(--font-heading);"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Streaks & Achievements</h1>
+          <h1 style="font-size: 1.8rem; font-family: var(--font-heading);"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Achievements</h1>
           <p style="color: var(--text-muted); font-size: 0.95rem;">Unlock levels, earn XP points, and complete challenges to build positive habits.</p>
         </div>
 
@@ -52,18 +50,9 @@ export const GamificationView = {
           </div>
         </div>
 
-        <!-- Streaks and Streak multipliers card -->
         <div class="grid-cols-3">
-          <div class="glass-card" style="grid-column: span 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-            <i class="fa-solid fa-fire-flame-curved" style="font-size: 3rem; color: #f59e0b; animation: voicePulse 1s infinite alternate; margin-bottom: 1rem;"></i>
-            <h3 style="font-size: 1.5rem; font-family: var(--font-heading);">${gam.streak} Day Streak</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; line-height: 1.4;">
-              Log daily habits consecutive days to keep your fire burning. Breaks reset points multiplier!
-            </p>
-          </div>
-
-          <!-- Weekly Group Challenges list (spans 2 columns) -->
-          <div class="glass-card" style="grid-column: span 2; display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Weekly Group Challenges list (spans 3 columns) -->
+          <div class="glass-card" style="grid-column: span 3; display: flex; flex-direction: column; gap: 1rem;">
             <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
               <i class="fa-solid fa-calendar-check" style="color: #10b981;"></i> Active Weekly Challenges
             </h3>
@@ -71,12 +60,12 @@ export const GamificationView = {
             <div style="display: flex; flex-direction: column; gap: 0.8rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; background: var(--border-color); padding: 0.8rem 1rem; border-radius: var(--border-radius-sm);">
                 <div>
-                  <strong style="font-size: 0.9rem; color: var(--text-main); display: block;">Consistency Sprint</strong>
-                  <span style="font-size: 0.8rem; color: var(--text-muted);">Log your habits for 3 consecutive days.</span>
+                  <strong style="font-size: 0.9rem; color: var(--text-main); display: block;">Perfect Sleep</strong>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Achieve a sleep quality rating of 8 or above.</span>
                 </div>
                 <div style="text-align: right;">
                   <span style="font-size: 0.85rem; font-weight: 700; color: #f59e0b;">+50 XP</span>
-                  <div style="font-size: 0.75rem; color: #10b981; font-weight: 600;">${gam.streak >= 3 ? 'Completed' : 'In Progress'}</div>
+                  <div style="font-size: 0.75rem; color: #10b981; font-weight: 600;">Active</div>
                 </div>
               </div>
 
@@ -150,9 +139,7 @@ export const GamificationView = {
       focus_master: '🎯 FOCUS MASTER: Awarded when you log a daily study or work focus rating of 9/10 or above. (+75 XP)',
       mindful_monk: '🧘 MINDFUL MONK: Awarded when you meditate for a calm 15 minutes or longer in a single session. (+50 XP)',
       healthy_eater: '🥗 HEALTHY EATER: Awarded when you log zero junk servings and eat healthy veggies or fruit. (+50 XP)',
-      workout_warrior: '🏋️ WORKOUT WARRIOR: Awarded when your daily exercise calorie burn exceed 400 kcal. (+50 XP)',
-      streak_beginner: '🔥 STREAK BEGINNER: Awarded when you maintain a habits logging streak for 3 consecutive days. (+50 XP)',
-      streak_master: '⚡ STREAK MASTER: Awarded when you maintain a habits logging streak for 7 consecutive days. (+100 XP)'
+      workout_warrior: '🏋️ WORKOUT WARRIOR: Awarded when your daily exercise calorie burn exceed 400 kcal. (+50 XP)'
     };
 
     const descBox = document.getElementById('badge-description-box');

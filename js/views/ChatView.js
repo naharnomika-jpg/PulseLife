@@ -5,7 +5,7 @@ import { Toast } from '../components/Toast.js';
 
 export const ChatView = {
   chatHistory: [
-    { sender: 'bot', text: 'Hello! I am your PulseLife AI Wellness Coach. 🤖<br><br>Before we start, please tell me your <strong>age, height, weight, and daily routine</strong>. This helps me customize health suggestions for you!' }
+    { sender: 'bot', text: 'Hello! I am your PulseLife AI Wellness Coach. 🤖<br><br>I\'ve loaded your profile details and health metrics directly from the application database! Feel free to ask me anything about your wellness or habits, and I\'ll suggest customized routines for you. ✨' }
   ],
 
   render() {
@@ -149,7 +149,7 @@ export const ChatView = {
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
         this.chatHistory = [
-          { sender: 'bot', text: 'Hello! I am your PulseLife AI Wellness Coach. 🤖<br><br>Before we start, please tell me your <strong>age, height, weight, and daily routine</strong>. This helps me customize health suggestions for you!' }
+          { sender: 'bot', text: 'Hello! I am your PulseLife AI Wellness Coach. 🤖<br><br>I\'ve loaded your profile details and health metrics directly from the application database! Feel free to ask me anything about your wellness or habits, and I\'ll suggest customized routines for you. ✨' }
         ];
         Toast.success('Conversation history cleared.');
         // Re-render chat view

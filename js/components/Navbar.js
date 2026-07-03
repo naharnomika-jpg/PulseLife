@@ -9,10 +9,11 @@ export const Navbar = {
     
     // Dynamic translations helper for navbar actions
     const t = {
-      en: { points: 'pts', streak: 'day streak', logout: 'Logout' },
-      es: { points: 'pts', streak: 'días de racha', logout: 'Cerrar sesión' },
-      fr: { points: 'pts', streak: 'jours de streak', logout: 'Déconnexion' }
-    }[lang];
+      en: { points: 'pts', logout: 'Logout' },
+      es: { points: 'pts', logout: 'Cerrar sesión' },
+      fr: { points: 'pts', logout: 'Déconnexion' },
+      hi: { points: 'अंक', logout: 'लॉगआउट' }
+    }[lang] || { points: 'pts', logout: 'Logout' };
 
     return `
       <nav class="navbar">
@@ -31,10 +32,6 @@ export const Navbar = {
               <i class="fa-solid fa-star"></i>
               <span>${gamification.points} ${t.points}</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 0.4rem; color: #f59e0b; font-weight: 700; font-size: 0.9rem;" title="Daily Streak">
-              <i class="fa-solid fa-fire"></i>
-              <span>${gamification.streak} ${t.streak}</span>
-            </div>
           </div>
 
           <!-- Language Selector -->
@@ -42,6 +39,7 @@ export const Navbar = {
             <option value="en" ${lang === 'en' ? 'selected' : ''}>🇬🇧 EN</option>
             <option value="es" ${lang === 'es' ? 'selected' : ''}>🇪🇸 ES</option>
             <option value="fr" ${lang === 'fr' ? 'selected' : ''}>🇫🇷 FR</option>
+            <option value="hi" ${lang === 'hi' ? 'selected' : ''}>🇮🇳 HI</option>
           </select>
 
           <!-- Theme Toggle -->

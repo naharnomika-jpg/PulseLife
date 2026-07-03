@@ -30,7 +30,8 @@ function setupReminders() {
       const messages = {
         en: "💧 Hydration Reminder: Time to drink a glass of water to keep your metabolism active!",
         es: "💧 Recordatorio de Hidratación: ¡Es hora de tomar un vaso de agua para activar tu metabolismo!",
-        fr: "💧 Rappel d'hydratation : C'est le moment de boire un verre d'eau pour rester en forme !"
+        fr: "💧 Rappel d'hydratation : C'est le moment de boire un verre d'eau pour rester en forme !",
+        hi: "💧 जल अनुस्मारक: अपने चयापचय (metabolism) को सक्रिय रखने के लिए एक गिलास पानी पीने का समय आ गया है!"
       };
       Toast.info(messages[lang]);
     }
@@ -43,7 +44,8 @@ function setupReminders() {
       const messages = {
         en: "🏃 Activity Alert: You've been sitting for a while. Stand up and do a quick 2-minute stretch!",
         es: "🏃 Alerta de Actividad: Has estado sentado un rato. ¡Levántate y estira por 2 minutos!",
-        fr: "🏃 Rappel d'activité : Vous êtes assis depuis un moment. Levez-vous pour vous étirer !"
+        fr: "🏃 Rappel d'activité : Vous êtes assis depuis un moment. Levez-vous pour vous étirer !",
+        hi: "🏃 गतिविधि चेतावनी: आप काफी देर से बैठे हैं। खड़े हो जाएं और 2 मिनट के लिए थोड़ा स्ट्रेच करें!"
       };
       Toast.success(messages[lang]);
     }

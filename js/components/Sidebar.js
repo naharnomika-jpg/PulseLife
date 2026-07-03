@@ -13,7 +13,7 @@ export const Sidebar = {
         analytics: 'Analytics & Trends',
         chat: 'AI Chat Assistant',
         planners: 'AI Health Planners',
-        rewards: 'Streaks & Achievements',
+        rewards: 'Achievements',
         reports: 'PDF Reports',
         settings: 'Settings & Profile',
         admin: 'Admin Dashboard'
@@ -24,7 +24,7 @@ export const Sidebar = {
         analytics: 'Análisis y Tendencias',
         chat: 'Asistente de IA',
         planners: 'Planificadores de IA',
-        rewards: 'Rachas y Logros',
+        rewards: 'Logros',
         reports: 'Reportes PDF',
         settings: 'Ajustes y Perfil',
         admin: 'Consola de Admin'
@@ -35,12 +35,33 @@ export const Sidebar = {
         analytics: 'Analyses & Tendances',
         chat: 'Assistant IA',
         planners: 'Planificateurs IA',
-        rewards: 'Streaks & Trophées',
+        rewards: 'Trophées',
         reports: 'Rapports PDF',
         settings: 'Paramètres & Profil',
         admin: 'Console Admin'
+      },
+      hi: {
+        dashboard: 'डैशबोर्ड',
+        logs: 'दैनिक आदतें लॉग करें',
+        analytics: 'विश्लेषण और रुझान',
+        chat: 'एआई चैट सहायक',
+        planners: 'एआई स्वास्थ्य योजनाकार',
+        rewards: 'उपलब्धियां',
+        reports: 'पीडीएफ रिपोर्ट',
+        settings: 'सेटिंग्स और प्रोफ़ाइल',
+        admin: 'एडमिन डैशबोर्ड'
       }
-    }[lang];
+    }[lang] || {
+      dashboard: 'Dashboard',
+      logs: 'Log Daily Habits',
+      analytics: 'Analytics & Trends',
+      chat: 'AI Chat Assistant',
+      planners: 'AI Health Planners',
+      rewards: 'Achievements',
+      reports: 'PDF Reports',
+      settings: 'Settings & Profile',
+      admin: 'Admin Dashboard'
+    };
 
     const activeClass = (path) => currentPath === path ? 'active' : '';
 
@@ -79,7 +100,7 @@ export const Sidebar = {
           </li>
           <li>
             <a href="#/gamification" class="${activeClass('gamification')}">
-              <i class="fa-solid fa-fire-flame-curved"></i>
+              <i class="fa-solid fa-trophy"></i>
               <span>${t.rewards}</span>
             </a>
           </li>

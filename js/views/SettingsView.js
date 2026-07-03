@@ -8,6 +8,33 @@ export const SettingsView = {
     const userObj = store.state.users[store.state.currentUser];
     const lang = store.state.settings.lang;
 
+    // Calculate initial BMI
+    const height = Number(userObj.details.height) || 0;
+    const weight = Number(userObj.details.weight) || 0;
+    let bmiValue = '--';
+    let bmiCategory = '';
+    let bmiColor = 'var(--text-muted)';
+
+    if (height > 0 && weight > 0) {
+      const heightM = height / 100;
+      const bmi = weight / (heightM * heightM);
+      bmiValue = bmi.toFixed(1);
+      if (bmi < 18.5) {
+        bmiCategory = 'Underweight';
+        bmiColor = '#f59e0b';
+      } else if (bmi < 25) {
+        bmiCategory = 'Normal';
+        bmiColor = '#10b981';
+      } else if (bmi < 30) {
+        bmiCategory = 'Overweight';
+        bmiColor = '#f59e0b';
+      } else {
+        bmiCategory = 'Obese';
+        bmiColor = '#ef4444';
+      }
+    }
+    const bmiDisplay = bmiCategory ? `${bmiValue} (${bmiCategory})` : bmiValue;
+
     return `
       <div style="display: flex; flex-direction: column; gap: 2rem;">
         
@@ -41,13 +68,12 @@ export const SettingsView = {
                   <select id="set-gender" class="form-control">
                     <option value="Male" ${userObj.details.gender === 'Male' ? 'selected' : ''}>Male</option>
                     <option value="Female" ${userObj.details.gender === 'Female' ? 'selected' : ''}>Female</option>
-                    <option value="Non-binary" ${userObj.details.gender === 'Non-binary' ? 'selected' : ''}>Non-binary</option>
                     <option value="Other" ${userObj.details.gender === 'Other' ? 'selected' : ''}>Other</option>
                   </select>
                 </div>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
                 <div class="form-group">
                   <label>Height (cm)</label>
                   <input type="number" id="set-height" class="form-control" value="${userObj.details.height}" required>
@@ -56,12 +82,13 @@ export const SettingsView = {
                   <label>Weight (kg)</label>
                   <input type="number" id="set-weight" class="form-control" value="${userObj.details.weight}" required>
                 </div>
+                <div class="form-group">
+                  <label>${i18n.t('bodyMassIndex')}</label>
+                  <input type="text" id="set-bmi" class="form-control" value="${bmiDisplay}" readonly style="background: rgba(255,255,255,0.05); color: ${bmiColor}; font-weight: bold; cursor: not-allowed; border-color: rgba(255,255,255,0.1);">
+                </div>
               </div>
 
-              <div class="form-group">
-                <label>Occupation</label>
-                <input type="text" id="set-occupation" class="form-control" value="${userObj.details.occupation}" required>
-              </div>
+
 
               <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem;">
                 <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
@@ -84,6 +111,7 @@ export const SettingsView = {
                   <option value="en" ${lang === 'en' ? 'selected' : ''}>English</option>
                   <option value="es" ${lang === 'es' ? 'selected' : ''}>Español</option>
                   <option value="fr" ${lang === 'fr' ? 'selected' : ''}>Français</option>
+                  <option value="hi" ${lang === 'hi' ? 'selected' : ''}>हिन्दी (Hindi)</option>
                 </select>
               </div>
 
@@ -94,24 +122,6 @@ export const SettingsView = {
               </div>
             </div>
 
-            <!-- API Configuration Card -->
-            <div class="glass-card">
-              <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <i class="fa-solid fa-key" style="color: #f59e0b;"></i> API Configuration
-              </h3>
-              
-              <form id="settings-api-form" style="display: flex; flex-direction: column; gap: 0.8rem;">
-                <div class="form-group">
-                  <label>Groq API Key</label>
-                  <input type="password" id="set-groq-key" class="form-control" 
-                    value="${store.state.settings.groqKey || ''}" 
-                    placeholder="Enter your gsk_... key" style="font-family: monospace;">
-                </div>
-                <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">
-                  Save API Key
-                </button>
-              </form>
-            </div>
 
             <!-- Submit Feedback Card -->
             <div class="glass-card">
@@ -140,22 +150,69 @@ export const SettingsView = {
 
   init() {
     const profileForm = document.getElementById('settings-profile-form');
-    const apiForm = document.getElementById('settings-api-form');
     const feedbackForm = document.getElementById('settings-feedback-form');
     const langSelect = document.getElementById('settings-lang-select');
     const themeCheckbox = document.getElementById('settings-theme-checkbox');
+
+    // Dynamic BMI calculation listeners
+    const heightInput = document.getElementById('set-height');
+    const weightInput = document.getElementById('set-weight');
+    const bmiInput = document.getElementById('set-bmi');
+
+    const updateBMI = () => {
+      const h = Number(heightInput.value) || 0;
+      const w = Number(weightInput.value) || 0;
+      if (h > 0 && w > 0) {
+        const heightM = h / 100;
+        const bmi = w / (heightM * heightM);
+        const bmiVal = bmi.toFixed(1);
+        let category = '';
+        let color = '';
+        if (bmi < 18.5) {
+          category = 'Underweight';
+          color = '#f59e0b';
+        } else if (bmi < 25) {
+          category = 'Normal';
+          color = '#10b981';
+        } else if (bmi < 30) {
+          category = 'Overweight';
+          color = '#f59e0b';
+        } else {
+          category = 'Obese';
+          color = '#ef4444';
+        }
+        bmiInput.value = `${bmiVal} (${category})`;
+        bmiInput.style.color = color;
+      } else {
+        bmiInput.value = '--';
+        bmiInput.style.color = 'var(--text-muted)';
+      }
+    };
+
+    if (heightInput && weightInput && bmiInput) {
+      heightInput.addEventListener('input', updateBMI);
+      weightInput.addEventListener('input', updateBMI);
+    }
 
     // Profile Details Update Submit
     if (profileForm) {
       profileForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById('set-name').value;
+        const hVal = Number(document.getElementById('set-height').value);
+        const wVal = Number(document.getElementById('set-weight').value);
+        let bmiVal = null;
+        if (hVal > 0 && wVal > 0) {
+          const heightM = hVal / 100;
+          bmiVal = Number((wVal / (heightM * heightM)).toFixed(1));
+        }
+
         const details = {
           age: Number(document.getElementById('set-age').value),
           gender: document.getElementById('set-gender').value,
-          height: Number(document.getElementById('set-height').value),
-          weight: Number(document.getElementById('set-weight').value),
-          occupation: document.getElementById('set-occupation').value
+          height: hVal,
+          weight: wVal,
+          bmi: bmiVal
         };
 
         store.updateProfileDetails(name, details);
@@ -164,15 +221,7 @@ export const SettingsView = {
       });
     }
 
-    // API Key Update Submit
-    if (apiForm) {
-      apiForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const keyVal = document.getElementById('set-groq-key').value.trim();
-        store.setGroqKey(keyVal);
-        Toast.success('Groq API Key successfully updated.');
-      });
-    }
+
 
     // Feedback Submit
     if (feedbackForm) {

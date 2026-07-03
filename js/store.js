@@ -10,14 +10,14 @@ const defaultState = {
       password: 'admin123',
       name: 'Dr. Jane Admin',
       role: 'admin',
-      details: { age: 34, gender: 'Female', height: 168, weight: 60, occupation: 'Health Researcher' }
+      details: { age: 34, gender: 'Female', height: 168, weight: 60, bmi: 21.3, occupation: 'Health Researcher' }
     },
     'user@pulselife.com': {
       email: 'user@pulselife.com',
       password: 'user123',
       name: 'Alex Johnson',
       role: 'user',
-      details: { age: 28, gender: 'Male', height: 180, weight: 75, occupation: 'Software Engineer' }
+      details: { age: 28, gender: 'Male', height: 180, weight: 75, bmi: 23.1, occupation: 'Software Engineer' }
     }
   },
   currentUser: null, // Stores email of logged-in user
@@ -123,6 +123,9 @@ class Store {
     const result = await createUserWithEmailAndPassword(auth, email, password);
     const user = result.user;
     
+    const h = Number(details.height) || 170;
+    const w = Number(details.weight) || 70;
+    const bmi = Number((w / ((h / 100) * (h / 100))).toFixed(1));
     this.state.users[email] = {
       email,
       name,
@@ -130,8 +133,9 @@ class Store {
       details: {
         age: Number(details.age) || 25,
         gender: details.gender || 'Other',
-        height: Number(details.height) || 170,
-        weight: Number(details.weight) || 70,
+        height: h,
+        weight: w,
+        bmi: bmi,
         occupation: details.occupation || 'Freelancer'
       }
     };
@@ -230,16 +234,12 @@ class Store {
     };
   }
 
-  // Gamification & Streak Logics
+  // Gamification & Daily Reward Logics
   checkAndUpdateStreaks(email) {
     const gamification = this.state.gamification[email];
     if (!gamification) return;
 
     const todayStr = new Date().toISOString().split('T')[0];
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toISOString().split('T')[0];
-
     const lastDate = gamification.lastActiveDate;
 
     if (lastDate === todayStr) {
@@ -247,33 +247,10 @@ class Store {
       return;
     }
 
-    if (lastDate === yesterdayStr) {
-      // Streak continues
-      gamification.streak += 1;
-      gamification.points += 20; // 20 points for daily login streak boost
-      this.checkStreakBadges(email, gamification.streak);
-    } else if (lastDate !== '') {
-      // Streak broken
-      gamification.streak = 1;
-    } else {
-      // First log
-      gamification.streak = 1;
-    }
-
+    // Award daily logging activity points
+    gamification.points += 20; 
     gamification.lastActiveDate = todayStr;
     gamification.level = Math.floor(gamification.points / 100) + 1;
-  }
-
-  checkStreakBadges(email, streak) {
-    const badges = this.state.gamification[email].badges;
-    if (streak >= 3 && !badges.includes('streak_beginner')) {
-      badges.push('streak_beginner');
-      this.state.gamification[email].points += 50;
-    }
-    if (streak >= 7 && !badges.includes('streak_master')) {
-      badges.push('streak_master');
-      this.state.gamification[email].points += 100;
-    }
   }
 
   calculateRewardsForLog(email, dateStr, log) {
@@ -400,11 +377,14 @@ class Store {
           this.state.jwtToken = firebaseUser.uid; // Use firebase uid as token
           
           if (!this.state.users[firebaseUser.email]) {
+            const h = 175;
+            const w = 70;
+            const bmi = Number((w / ((h / 100) * (h / 100))).toFixed(1));
             this.state.users[firebaseUser.email] = {
               email: firebaseUser.email,
               name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
               role: (firebaseUser.email.endsWith('@pulselife.com') && firebaseUser.email.startsWith('admin')) ? 'admin' : 'user',
-              details: { age: 25, gender: 'Male', height: 175, weight: 70, occupation: 'Software Engineer' }
+              details: { age: 25, gender: 'Male', height: h, weight: w, bmi: bmi, occupation: 'Software Engineer' }
             };
           }
 

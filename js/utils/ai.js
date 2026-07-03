@@ -297,19 +297,19 @@ export const AIEngine = {
   generateWorkoutPlan(type, level, duration) {
     const workouts = {
       Strength: {
-        Beginner: ['Warmup dynamic stretches (5 min)', 'Bodyweight squats: 3 sets of 12 reps', 'Push-ups (knees allowed): 3 sets of 10 reps', 'Glute bridges: 3 sets of 15 reps', 'Plank hold: 3 sets of 30 seconds', 'Cooldown stretching (5 min)'],
-        Intermediate: ['Warmup dynamic stretches (5 min)', 'Goblet squats: 4 sets of 12 reps (medium weight)', 'Standard Push-ups: 4 sets of 15 reps', 'Dumbbell Romanian Deadlifts: 4 sets of 12 reps', 'Dumbbell Shoulder Press: 3 sets of 10 reps', 'Plank hold: 3 sets of 60 seconds', 'Cooldown stretching (5 min)'],
-        Advanced: ['Warmup dynamic stretches (5 min)', 'Barbell squats: 4 sets of 8 reps (heavy)', 'Weighted Push-ups / Dips: 4 sets of 10 reps', 'Barbell Deadlifts: 4 sets of 6 reps', 'Overhead Dumbbell Press: 4 sets of 8 reps', 'Hanging leg raises: 3 sets of 15 reps', 'Cooldown stretching (5 min)']
+        Beginner: ['Warmup dynamic stretches (5 min)', 'Bodyweight squat: 3 sets of 12 reps', 'Knee push-up: 3 sets of 10 reps', 'Glute bridges: 3 sets of 15 reps', 'Wall sit: 3 sets of 20 seconds', 'Cooldown stretching (5 min)'],
+        Intermediate: ['Warmup dynamic stretches (5 min)', 'Goblet squat: 4 sets of 12 reps', 'Standard push-up: 4 sets of 15 reps', 'Dumbbell Romanian Deadlifts: 4 sets of 12 reps', 'Dumbbell Shoulder Press: 3 sets of 10 reps', 'Forearm Plank: 3 sets of 60 seconds', 'Cooldown stretching (5 min)'],
+        Advanced: ['Warmup dynamic stretches (5 min)', 'Barbell squats: 4 sets of 8 reps', 'Decline push-up: 4 sets of 12 reps', 'Barbell Deadlifts: 4 sets of 6 reps', 'Overhead Dumbbell Press: 4 sets of 8 reps', 'Hanging leg raises: 3 sets of 15 reps', 'Cooldown stretching (5 min)']
       },
       Yoga: {
-        Beginner: ['Child\'s Pose: 2 mins', 'Cat-Cow Flow: 3 mins', 'Downward Facing Dog: 3 mins', 'Warrior I & II Pose: 5 mins', 'Tree Pose (balance): 3 mins', 'Savasana (relaxation): 5 mins'],
-        Intermediate: ['Cat-Cow & Cobra Flow: 5 mins', 'Downward Dog to Plank Flow: 5 mins', 'Warrior III (balance): 4 mins', 'Crow Pose practice: 3 mins', 'Bridge Pose: 4 mins', 'Savasana with deep breathing: 5 mins'],
-        Advanced: ['Sun Salutation (Surya Namaskar): 8 mins', 'Headstand (Sirsasana) practice: 5 mins', 'Wheel Pose (Urdhva Dhanurasana): 5 mins', 'Crow to Tripod Headstand Flow: 5 mins', 'Half Pigeon Pose (deep stretch): 5 mins', 'Savasana / Meditation: 5 mins']
+        Beginner: ['Child\'s Pose: 2 mins', 'Easy Pose breathing: 3 mins', 'Cat-Cow stretch: 3 mins', 'Sphinx Pose hold: 4 mins', 'Corpse Pose (Savasana): 5 mins'],
+        Intermediate: ['Downward Facing Dog: 3 mins', 'Warrior I & II flow: 5 mins', 'Cobra Pose stretch: 4 mins', 'Bridge Pose hold: 4 mins', 'Tree Pose balance: 3 mins'],
+        Advanced: ['Sun Salutations (Surya Namaskar): 8 mins', 'Headstand (Sirsasana) practice: 5 mins', 'Crow Pose (Bakasana) hold: 3 mins', 'Wheel Pose backbend: 5 mins', 'Half Pigeon deep hip opener: 5 mins']
       },
       Cardio: {
-        Beginner: ['Slow jog / Brisk walk: 10 mins', 'Jumping jacks: 3 sets of 30 seconds', 'High knees: 3 sets of 30 seconds', 'Light jogging: 10 mins', 'Walking cooldown: 5 mins'],
-        Intermediate: ['Fast jog: 10 mins', 'Jumping jacks: 4 sets of 45 seconds', 'Mountain climbers: 4 sets of 30 seconds', 'Bicycle crunches: 3 sets of 20 reps', 'HIIT sprints (30s sprint, 30s walk): 6 rounds', 'Walking cooldown: 5 mins'],
-        Advanced: ['Fast running: 15 mins', 'Burpees: 4 sets of 15 reps', 'Jump squats: 4 sets of 20 reps', 'HIIT sprints (40s sprint, 20s jog): 10 rounds', 'Mountain climbers: 4 sets of 45 seconds', 'Walking cooldown: 5 mins']
+        Beginner: ['Brisk walk: 10 mins', 'Light marching in place: 5 mins', 'Gentle step-touches: 5 mins', 'Arm circles: 2 mins', 'Walking cooldown: 5 mins'],
+        Intermediate: ['Jumping jacks: 4 sets of 45 seconds', 'Mountain climbers: 4 sets of 30 seconds', 'Bicycle crunches: 3 sets of 20 reps', 'Fast jog: 10 mins', 'Walking cooldown: 5 mins'],
+        Advanced: ['HIIT sprints (40s sprint, 20s jog): 10 rounds', 'Burpees: 4 sets of 15 reps', 'Jump squats: 4 sets of 20 reps', 'High knees sprint: 4 sets of 45 seconds', 'Walking cooldown: 5 mins']
       }
     };
 
@@ -359,63 +359,79 @@ export const AIEngine = {
     // 1. SLEEP RESPONSE
     if (msg.includes('sleep') || msg.includes('dormir')) {
       const avgSleep = currentLogs.sleep ? this.calculateSleepDuration(currentLogs.sleep.sleepTime, currentLogs.sleep.wakeTime) : 7.5;
-      return `Hello ${name}, looking at your logs, your sleep duration is roughly ${avgSleep} hours, with a quality score of ${currentLogs.sleep?.quality || 5}/10.<br><br>
-              <strong>My AI recommendations for you:</strong><br>
-              1. <strong>Circadian Anchor:</strong> Maintain a strict wake-up time even on weekends. This stabilizes your internal melatonin cycle.<br>
-              2. <strong>Digital Wind-down:</strong> Avoid blue-light screens (mobile, gaming) at least 45 minutes prior to sleep. Blue light suppresses melatonin synthesis.<br>
-              3. <strong>Temperature:</strong> Cool rooms (around 18°C) are clinically shown to facilitate deep slow-wave sleep.<br>
-              4. <strong>Stimulants:</strong> Limit caffeine after 2:00 PM as its half-life ranges from 5 to 7 hours.`;
+      return `😴 Hello ${name}! Your logged sleep duration is around <strong>${avgSleep} hours</strong> with a quality score of <strong>${currentLogs.sleep?.quality || 5}/10</strong>.<br><br>
+              <strong>✨ My AI Sleep Hacks for You:</strong><br>
+              <ul>
+                <li>⏰ <strong>Melatonin Cycle:</strong> Keep a strict wake-up time even on weekends to lock in your circadian rhythm!</li>
+                <li>📱 <strong>Digital Curfew:</strong> Avoid blue-light screens at least 45 minutes before bedtime to boost melatonin!</li>
+                <li>🌡️ <strong>Cool Sanctuary:</strong> Sleep in a cool room (around 18°C) to promote deep, restorative sleep!</li>
+                <li>☕ <strong>Caffeine Cutoff:</strong> Stop caffeine intake after 2:00 PM to protect your sleep architecture!</li>
+              </ul>`;
     }
 
     // 2. BREAKFAST / DIET RESPONSE
     if (msg.includes('breakfast') || msg.includes('desayuno') || msg.includes('eat') || msg.includes('food') || msg.includes('diet')) {
       const junkServings = currentLogs.diet ? currentLogs.diet.junk : 0;
-      let reviewStr = junkServings > 0 ? `You logged ${junkServings} junk servings recently. I suggest substituting these with nutrient-dense options.` : `Your diet log shows healthy choices today!`;
+      let reviewStr = junkServings > 0 ? `⚠️ You logged ${junkServings} junk servings recently. Swap them for clean fuels!` : `🥗 Your diet log looks incredibly clean and healthy today!`;
 
-      return `Hi ${name}. ${reviewStr}<br><br>
-              <strong>Suggested Premium Healthy Breakfasts:</strong><br>
-              - <strong>Option A (High Protein):</strong> 3 scrambled egg whites, 1 whole egg, cooked with spinach, served on 1 slice of toasted rye bread alongside half an avocado. (~400 kcal)<br>
-              - <strong>Option B (Plant-based):</strong> 1 cup Rolled Oats boiled in oat milk, mixed with 1 scoop vegan protein powder, topped with walnuts, flaxseeds, and fresh raspberries. (~450 kcal)<br>
-              - <strong>Option C (Quick/Light):</strong> Low-fat Greek yogurt, mixed with chia seeds, pumpkin seeds, and half a sliced banana. (~300 kcal)<br><br>
-              Focus on low glycemic index carbs to avoid mid-day insulin spikes!`;
+      return `🥑 Hi ${name}! ${reviewStr}<br><br>
+              <strong>🍳 Suggested Premium Healthy Breakfasts:</strong><br>
+              <ul>
+                <li>🥚 <strong>High Protein:</strong> 3 scrambled egg whites, 1 whole egg, spinach, 1 slice toasted rye bread, and 1/2 avocado! (~400 kcal)</li>
+                <li>🥣 <strong>Plant-Based Bowl:</strong> 1 cup Rolled Oats boiled in oat milk, 1 scoop protein powder, walnuts, flaxseeds, and fresh raspberries! (~450 kcal)</li>
+                <li>🍌 <strong>Quick & Light:</strong> Greek yogurt layered with chia seeds, pumpkin seeds, and half a sliced banana! (~300 kcal)</li>
+              </ul>
+              🔥 Pro-tip: Keep sugars low to avoid energy crashes!`;
     }
 
     // 3. WORKOUT PLAN
     if (msg.includes('workout') || msg.includes('ejercicio') || msg.includes('exercise') || msg.includes('run')) {
-      return `Sure ${name}! I've generated a fast, high-impact **Cardio + Core Strength HIIT** workout plan for you:<br><br>
-              <strong>Duration:</strong> 25 minutes | <strong>Difficulty:</strong> Intermediate<br><br>
-              1. <strong>Warmup (3 min):</strong> Gentle jogging in place, shoulder circles, and dynamic lunges.<br>
-              2. <strong>Main Block (18 min) - Perform 3 rounds of the following:</strong><br>
-                 - Jumping Jacks: 45 seconds work, 15 seconds rest.<br>
-                 - Goblet/Air Squats: 45 seconds work, 15 seconds rest.<br>
-                 - Push-ups: 45 seconds work, 15 seconds rest.<br>
-                 - Mountain Climbers: 45 seconds work, 15 seconds rest.<br>
-                 - High Knees: 45 seconds work, 15 seconds rest.<br>
-                 - Plank Hold: 45 seconds work, 15 seconds rest.<br>
-              3. <strong>Cooldown (4 min):</strong> Standing hamstring stretch, Cobra pose stretch, and slow deep breathing.`;
+      return `💪 Sure ${name}! Here is your high-impact <strong>Cardio + Core HIIT</strong> workout routine:<br><br>
+              <strong>⏱️ Duration:</strong> 25 mins | <strong>🔥 Difficulty:</strong> Intermediate<br><br>
+              <ul>
+                <li>🏃 <strong>Warmup (3 mins):</strong> Jogging in place, shoulder rolls, dynamic lunges!</li>
+                <li>⚡ <strong>HIIT Circuits (18 mins - 3 rounds):</strong>
+                  <ul>
+                    <li>✨ Jumping Jacks (45s work, 15s rest)</li>
+                    <li>🏋️ Goblet Squats (45s work, 15s rest)</li>
+                    <li>💪 Push-ups (45s work, 15s rest)</li>
+                    <li>🏃 Mountain Climbers (45s work, 15s rest)</li>
+                    <li>⚡ High Knees (45s work, 15s rest)</li>
+                    <li>🧘 Plank Hold (45s work, 15s rest)</li>
+                  </ul>
+                </li>
+                <li>🧘 <strong>Cooldown (4 mins):</strong> Hamstring stretches, Cobra stretches, and deep box breaths!</li>
+              </ul>`;
     }
 
     // 4. STRESS REDUCTION
     if (msg.includes('stress') || msg.includes('anxiety') || msg.includes('estrés') || msg.includes('meditate')) {
       const stressLevel = currentLogs.mental ? currentLogs.mental.stress : 5;
-      return `Hi ${name}. I see your recorded stress level is ${stressLevel}/10.<br><br>
-              <strong>Here are immediate, science-backed steps to reduce stress right now:</strong><br>
-              1. <strong>Physiological Sigh:</strong> Take two quick inhales through the nose, followed by one long, slow exhale through the mouth. Repeat 3 times. This immediately slows heart rate by engaging the vagus nerve.<br>
-              2. <strong>Box Breathing:</strong> Inhale for 4s, hold for 4s, exhale for 4s, hold for 4s. Repeat for 3 minutes.<br>
-              3. <strong>Forest Bathing / Nature Walk:</strong> Step outside for 10 minutes. Natural light and shifting gaze from screens reduces visual amygdala activation.<br>
-              4. <strong>Gratitude Focus:</strong> Write down 3 specific things you are grateful for today in the Gratitude section of your log.`;
+      return `🧠 Hi ${name}. Your stress index is currently at <strong>${stressLevel}/10</strong>.<br><br>
+              <strong>🍃 Immediate Stress-Buster Protocols:</strong><br>
+              <ul>
+                <li>🌬️ <strong>Physiological Sigh:</strong> 2 quick inhales via nose, followed by 1 long exhale via mouth. Repeat 3 times to immediately drop your heart rate!</li>
+                <li>📦 <strong>Box Breathing:</strong> Inhale 4s, hold 4s, exhale 4s, hold 4s. Practice for 3 minutes!</li>
+                <li>🌳 <strong>Nature Breaks:</strong> Step outside for 10 minutes to reset your optical focus and amygdala activity!</li>
+                <li>🙏 <strong>Gratitude Audit:</strong> Write down 3 specific things you appreciate today in your mental log!</li>
+              </ul>`;
     }
 
     // 5. HABIT ANALYSIS
     if (msg.includes('habit') || msg.includes('analyze') || msg.includes('consistency') || msg.includes('score')) {
-      return `Here is your detailed lifestyle analysis, ${name}:<br><br>
-              - <strong>Overall Health Score:</strong> ${scores.lifestyle}/100<br>
-              - <strong>Wellness Index:</strong> ${scores.wellness}/100<br>
-              - <strong>Productivity Index:</strong> ${scores.productivity}/100<br>
-              - <strong>Sleep Hygiene:</strong> ${scores.sleep}/100<br>
-              - <strong>Habit Strength:</strong> ${scores.habits}/100<br><br>
-              <strong>Key Strengths:</strong> Your productivity and hydration focus is exemplary.<br>
-              <strong>Focus Area:</strong> Reduce work screen times in the evenings and replace digital habits with reading or outdoor walking.`;
+      return `📊 Here is your lifestyle metric analysis, ${name}:<br><br>
+              <ul>
+                <li>🏆 <strong>Overall Lifestyle Score:</strong> ${scores.lifestyle}/100</li>
+                <li>💧 <strong>Wellness Index:</strong> ${scores.wellness}/100</li>
+                <li>💼 <strong>Productivity Index:</strong> ${scores.productivity}/100</li>
+                <li>😴 <strong>Sleep Hygiene:</strong> ${scores.sleep}/100</li>
+                <li>⚡ <strong>Habit Strength:</strong> ${scores.habits}/100</li>
+              </ul>
+              🚀 <strong>Insights & Optimizations:</strong><br>
+              <ul>
+                <li>⭐ <strong>Hydration & Output:</strong> Excellent work logging these daily targets!</li>
+                <li>📵 <strong>Evening Routine:</strong> Swap screens for books or a walk in nature 45 mins before sleep!</li>
+              </ul>`;
     }
 
     // 6. DEFAULT / FALLBACK
@@ -503,12 +519,14 @@ export const AIEngine = {
       const systemPrompt = `You are the PulseLife AI Wellness Coach. You are an expert in health, sleep, nutrition, and workout planning.
       
       CRITICAL FLOW PROTOCOL:
-      1. FIRST priority: Ask the user about their routine, age, height, and weight. If they have not provided these details in their message, politely refuse to answer other general questions and ask them to share their routine, age, height, and weight first.
-      2. Once they share their routine, age, height, and weight, acknowledge and save this context mentally.
-      3. For all subsequent questions, answer precisely, directly, and in short form (maximum 2-3 sentences).
-      4. Use simple HTML tags for formatting (e.g. <strong>, <br>, <ul>, <li>). Do NOT use markdown code blocks or triple backticks.
+      1. Use the "Current User Profile" details provided below (Age, Gender, Height, Weight) as the absolute source of truth for the user's personal details. Do NOT ask the user for their age, height, weight, or gender in chat, as the application has already collected and provided this data to you.
+      2. Answer the user's questions directly and precisely based on their profile and logs.
+      3. Format every response strictly as a clean, itemized list of bullet points (using <ul> and <li> tags), just like a market shopping list.
+      4. Do NOT include any introductory sentences, conversational filler, greetings, or concluding remarks. Output ONLY the list items.
+      5. Each bullet point item must start with an exciting, context-relevant emoji (e.g. 🏃, 😴, 💧, 🥑) followed by an ultra-short, high-impact phrase (maximum 5-10 words).
+      6. Use simple HTML tags for formatting (e.g. <strong>, <br>, <ul>, <li>). Do NOT use markdown code blocks or triple backticks.
       
-      Current User Profile (if needed): Age: ${userDetails.age}, Gender: ${userDetails.gender}, Height: ${userDetails.height}cm, Weight: ${userDetails.weight}kg, Occupation: ${userDetails.occupation}.
+      Current User Profile (if needed): Age: ${userDetails.age}, Gender: ${userDetails.gender}, Height: ${userDetails.height}cm, Weight: ${userDetails.weight}kg.
       Today's User Logs:
       - Sleep: ${JSON.stringify(currentLogs.sleep)}
       - Water: ${JSON.stringify(currentLogs.water)}

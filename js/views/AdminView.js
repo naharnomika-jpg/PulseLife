@@ -66,7 +66,6 @@ export const AdminView = {
                   <th>ROLE</th>
                   <th>AGE</th>
                   <th>METRICS (HEIGHT/WEIGHT)</th>
-                  <th>OCCUPATION</th>
                   <th>ACTIONS</th>
                 </tr>
               </thead>
@@ -84,7 +83,6 @@ export const AdminView = {
                     </td>
                     <td>${u.details.age} yrs</td>
                     <td>${u.details.height}cm / ${u.details.weight}kg</td>
-                    <td>${u.details.occupation}</td>
                     <td>
                       ${u.email !== 'admin@pulselife.com' ? `
                         <button class="btn btn-danger btn-sm btn-delete-user" data-email="${u.email}" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">

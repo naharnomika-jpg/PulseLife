@@ -68,7 +68,8 @@ const translations = {
     profileSettings: 'Profile Settings',
     saveProfile: 'Save Changes',
     selectLanguage: 'System Language',
-    darkMode: 'Dark Mode'
+    darkMode: 'Dark Mode',
+    bodyMassIndex: 'Body Mass Index (BMI)'
   },
   es: {
     // General / Landing
@@ -136,7 +137,8 @@ const translations = {
     profileSettings: 'Configuración del Perfil',
     saveProfile: 'Guardar Cambios',
     selectLanguage: 'Idioma del Sistema',
-    darkMode: 'Modo Oscuro'
+    darkMode: 'Modo Oscuro',
+    bodyMassIndex: 'Índice de Masa Corporal (IMC)'
   },
   fr: {
     // General / Landing
@@ -204,7 +206,76 @@ const translations = {
     profileSettings: 'Paramètres du Profil',
     saveProfile: 'Enregistrer les Modifications',
     selectLanguage: 'Langue du Système',
-    darkMode: 'Mode Sombre'
+    darkMode: 'Mode Sombre',
+    bodyMassIndex: 'Indice de Masse Corporelle (IMC)'
+  },
+  hi: {
+    // General / Landing
+    landingTitle: 'स्वास्थ्य को बेहतर बनाएं, उत्पादकता को अधिकतम करें',
+    landingSub: 'पल्सलाइफ आपके दैनिक जीवन शैली की आदतों को ट्रैक करता है, स्थानीय विश्लेषण का उपयोग करता है, और कल्याण के लिए सीधे सुझाव देता है।',
+    getStarted: 'आज ही शुरू करें',
+    login: 'लॉगिन',
+    register: 'रजिस्टर करें',
+    email: 'ईमेल पता',
+    password: 'पासवर्ड',
+    name: 'पूरा नाम',
+    age: 'उम्र',
+    gender: 'लिंग',
+    height: 'ऊंचाई (सेमी)',
+    weight: 'वजन (किग्रा)',
+    forgotPassword: 'पासवर्ड भूल गए?',
+    resetBtn: 'रीसेट लिंक भेजें',
+    backToLogin: 'लॉगिन पर वापस जाएं',
+    googleSignIn: 'गूगल के साथ साइन इन करें',
+    dontHaveAccount: 'खाता नहीं है?',
+    alreadyHaveAccount: 'पहले से ही खाता है?',
+    
+    // Dashboard
+    dashboardTitle: 'दैनिक स्वास्थ्य सारांश',
+    lifestyleScore: 'जीवनशैली स्कोर',
+    todayGoals: 'आज की चुनौतियां और लक्ष्य',
+    aiCoachInsights: 'एआई कोच अंतर्दृष्टि',
+    wellnessScore: 'कल्याण स्कोर',
+    productivityScore: 'उत्पादकता स्कोर',
+    habitRate: 'आदत पूर्णता दर',
+    weeklyProgress: 'साप्ताहिक प्रगति',
+    monthlyImprovement: 'मासिक रुझान',
+    alertsTitle: 'पैटर्न और सुरक्षा अलर्ट',
+    noAlerts: 'उत्कृष्ट! आज कोई अस्वस्थ जीवनशैली पैटर्न नहीं पाया गया।',
+
+    // Logs Section
+    logDailyHabits: 'दैनिक जीवनशैली लॉग',
+    logSubtitle: 'व्यक्तिगत स्वास्थ्य सुझाव और स्तर पुरस्कार प्राप्त करने के लिए अपनी मेट्रिक्स सहेजें।',
+    voiceLogging: 'आवाज-इनपुट लॉग',
+    speechPlaceholder: 'माइक पर क्लिक करें और बोलें (उदा. "मैंने 8 घंटे नींद ली और 5 गिलास पानी पिया")',
+    fitbitSync: 'सिंक करें फिटबिट वियरेबल',
+    fitbitSuccess: 'वियरेबल डेटा सफलतापूर्वक प्राप्त हुआ! नींद: 7.5 घंटे, कदम: 9240, कैलोरी: 450।',
+    submitLogs: 'दैनिक लॉग सहेजें',
+
+    // Analytics
+    analyticsTitle: 'विश्लेषण और रुझान डैशबोर्ड',
+    chartSleep: 'नींद की गुणवत्ता और घंटे',
+    chartWater: 'पानी का सेवन (गिलास)',
+    chartCalories: 'बर्न कैलोरी बनाम कदम',
+    chartMood: 'मनोदशा और तनाव का स्तर',
+    chartProductivity: 'उत्पादकता बनाम कार्य स्क्रीन समय',
+    habitConsistencyCalendar: 'आदत निरंतरता कैलेंडर',
+
+    // Planners
+    plannerTitle: 'एआई योजनाकार और लक्ष्य पत्रक',
+    workoutPlanner: 'वर्कआउट योजना निर्माता',
+    mealPlanner: 'भोजन योजना निर्माता',
+    goalPlanner: 'आदत योजनाकार और मील के पत्थर',
+    generateWorkout: 'एआई वर्कआउट बनाएं',
+    generateMeal: 'एआई भोजन योजना बनाएं',
+    generateGoals: 'एआई आदत योजना बनाएं',
+    
+    // Settings
+    profileSettings: 'प्रोफ़ाइल सेटिंग्स',
+    saveProfile: 'परिवर्तन सहेजें',
+    selectLanguage: 'सिस्टम भाषा',
+    darkMode: 'डार्क मोड',
+    bodyMassIndex: 'बॉडी मास इंडेक्स (BMI)'
   }
 };
 

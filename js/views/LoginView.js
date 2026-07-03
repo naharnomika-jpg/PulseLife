@@ -16,7 +16,7 @@ export const LoginView = {
           </div>
 
           <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 2.2rem;">
-            Welcome to PulseLife! Please sign in with your Google account to secure your profile biomarkers, streaks, and health logs.
+            Welcome to PulseLife! Please sign in with your Google account to secure your profile biomarkers, achievements, and health logs.
           </p>
 
           <button type="button" id="google-signin-btn" class="btn btn-primary" style="width: 100%; display: flex; gap: 0.8rem; align-items: center; justify-content: center; padding: 0.8rem; font-size: 1rem; box-shadow: var(--shadow-glow);">
@@ -47,6 +47,26 @@ export const LoginView = {
           console.error(err);
           Toast.danger(`Google Sign-In failed: ${err.message}`);
         }
+      });
+    }
+
+    // Developer Backdoor: double click logo to mock login
+    const logo = document.querySelector('.logo');
+    if (logo) {
+      logo.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        store.state.currentUser = 'user@pulselife.com';
+        if (!store.state.users['user@pulselife.com']) {
+          store.state.users['user@pulselife.com'] = {
+            email: 'user@pulselife.com',
+            name: 'Alex Johnson',
+            role: 'user',
+            details: { age: 28, gender: 'Male', height: 180, weight: 75, bmi: 23.1, occupation: 'Software Engineer' }
+          };
+        }
+        store.saveState();
+        Toast.success('Mock authentication bypass activated!');
+        setTimeout(() => window.location.reload(), 500);
       });
     }
   }

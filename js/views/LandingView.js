@@ -87,10 +87,10 @@ export const LandingView = {
 
             <div class="glass-card">
               <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; margin-bottom: 1rem;">
-                <i class="fa-solid fa-fire"></i>
+                <i class="fa-solid fa-trophy"></i>
               </div>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; font-family: var(--font-heading);">Gamification</h3>
-              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Unlock ranks, badges, levels, and keep daily streaks active as you perform healthy challenges.</p>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Unlock ranks, badges, levels, and earn XP points as you perform healthy challenges.</p>
             </div>
           </div>
         </section>

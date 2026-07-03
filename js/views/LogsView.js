@@ -10,6 +10,33 @@ export const LogsView = {
     const log = store.getLogForDate(todayStr) || store.getEmptyLogTemplate();
     const userObj = store.state.users[store.state.currentUser];
 
+    // Calculate initial BMI
+    const height = Number(userObj.details.height) || 0;
+    const weight = Number(userObj.details.weight) || 0;
+    let bmiValue = '--';
+    let bmiCategory = '';
+    let bmiColor = 'var(--text-muted)';
+
+    if (height > 0 && weight > 0) {
+      const heightM = height / 100;
+      const bmi = weight / (heightM * heightM);
+      bmiValue = bmi.toFixed(1);
+      if (bmi < 18.5) {
+        bmiCategory = 'Underweight';
+        bmiColor = '#f59e0b';
+      } else if (bmi < 25) {
+        bmiCategory = 'Normal';
+        bmiColor = '#10b981';
+      } else if (bmi < 30) {
+        bmiCategory = 'Overweight';
+        bmiColor = '#f59e0b';
+      } else {
+        bmiCategory = 'Obese';
+        bmiColor = '#ef4444';
+      }
+    }
+    const bmiDisplay = bmiCategory ? `${bmiValue} (${bmiCategory})` : bmiValue;
+
     return `
       <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         
@@ -80,10 +107,7 @@ export const LogsView = {
                   <label>Gender</label>
                   <input type="text" id="log-profile-gender" class="form-control" value="${userObj.details.gender}">
                 </div>
-                <div class="form-group">
-                  <label>Occupation</label>
-                  <input type="text" id="log-profile-occupation" class="form-control" value="${userObj.details.occupation}">
-                </div>
+
                 <div class="form-group">
                   <label>Height (cm)</label>
                   <input type="number" id="log-profile-height" class="form-control" value="${userObj.details.height}">
@@ -91,6 +115,10 @@ export const LogsView = {
                 <div class="form-group">
                   <label>Weight (kg)</label>
                   <input type="number" id="log-profile-weight" class="form-control" value="${userObj.details.weight}">
+                </div>
+                <div class="form-group">
+                  <label>${i18n.t('bodyMassIndex')}</label>
+                  <input type="text" id="log-profile-bmi" class="form-control" value="${bmiDisplay}" readonly style="background: rgba(255,255,255,0.05); color: ${bmiColor}; font-weight: bold; cursor: not-allowed; border-color: rgba(255,255,255,0.1);">
                 </div>
               </div>
             </div>
@@ -341,6 +369,46 @@ export const LogsView = {
     const form = document.getElementById('logs-form');
     const todayStr = new Date().toISOString().split('T')[0];
 
+    // Dynamic BMI calculation listeners
+    const heightInput = document.getElementById('log-profile-height');
+    const weightInput = document.getElementById('log-profile-weight');
+    const bmiInput = document.getElementById('log-profile-bmi');
+
+    const updateBMI = () => {
+      const h = Number(heightInput.value) || 0;
+      const w = Number(weightInput.value) || 0;
+      if (h > 0 && w > 0) {
+        const heightM = h / 100;
+        const bmi = w / (heightM * heightM);
+        const bmiVal = bmi.toFixed(1);
+        let category = '';
+        let color = '';
+        if (bmi < 18.5) {
+          category = 'Underweight';
+          color = '#f59e0b';
+        } else if (bmi < 25) {
+          category = 'Normal';
+          color = '#10b981';
+        } else if (bmi < 30) {
+          category = 'Overweight';
+          color = '#f59e0b';
+        } else {
+          category = 'Obese';
+          color = '#ef4444';
+        }
+        bmiInput.value = `${bmiVal} (${category})`;
+        bmiInput.style.color = color;
+      } else {
+        bmiInput.value = '--';
+        bmiInput.style.color = 'var(--text-muted)';
+      }
+    };
+
+    if (heightInput && weightInput && bmiInput) {
+      heightInput.addEventListener('input', updateBMI);
+      weightInput.addEventListener('input', updateBMI);
+    }
+
     // Scroll Spy highlight logic for logs sidebar section links
     const sectionLinks = document.querySelectorAll('.logs-section-links a');
     sectionLinks.forEach(link => {
@@ -510,12 +578,20 @@ export const LogsView = {
 
         // 2. Save dynamic profile details
         const profileName = document.getElementById('log-profile-name').value;
+        const hVal = Number(document.getElementById('log-profile-height').value);
+        const wVal = Number(document.getElementById('log-profile-weight').value);
+        let bmiVal = null;
+        if (hVal > 0 && wVal > 0) {
+          const heightM = hVal / 100;
+          bmiVal = Number((wVal / (heightM * heightM)).toFixed(1));
+        }
+
         const profileDetails = {
           age: Number(document.getElementById('log-profile-age').value),
           gender: document.getElementById('log-profile-gender').value,
-          occupation: document.getElementById('log-profile-occupation').value,
-          height: Number(document.getElementById('log-profile-height').value),
-          weight: Number(document.getElementById('log-profile-weight').value)
+          height: hVal,
+          weight: wVal,
+          bmi: bmiVal
         };
 
         // Save structures

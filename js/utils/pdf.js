@@ -59,8 +59,7 @@ export const PDFReporter = {
     doc.setTextColor(...darkTextColor);
     doc.text(`Name: ${userObj.name}`, 20, 64);
     doc.text(`Age: ${userObj.details.age} yrs`, 20, 70);
-    doc.text(`Occupation: ${userObj.details.occupation}`, 80, 64);
-    doc.text(`Gender: ${userObj.details.gender}`, 80, 70);
+    doc.text(`Gender: ${userObj.details.gender}`, 80, 64);
     doc.text(`Height: ${userObj.details.height} cm`, 140, 64);
     doc.text(`Weight: ${userObj.details.weight} kg`, 140, 70);
 
@@ -250,8 +249,6 @@ export const PDFReporter = {
     const badgeNames = {
       hydro_king: '👑 HYDRO KING - Drank enough water to hit active goals.',
       early_bird: '🌅 EARLY BIRD - Woke up before 7:00 AM to unlock early momentum.',
-      streak_beginner: '🔥 STREAK BEGINNER - Logged daily lifestyle habits 3 days in a row.',
-      streak_master: '⚡ STREAK MASTER - Maintained a perfect 7-day log streak.',
       focus_master: '🎯 FOCUS MASTER - Achieved a perfect 9+/10 daily focus rating.',
       mindful_monk: '🧘 MINDFUL MONK - Meditated for 15+ minutes in a single day.',
       healthy_eater: '🥗 HEALTHY EATER - Avoided junk snacks and logged fresh green inputs.',
